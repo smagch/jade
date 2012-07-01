@@ -68,7 +68,15 @@ program.parse(process.argv);
 
 // options given, parse them
 
-if (program.obj) options = eval('(' + program.obj + ')');
+if (program.obj) {
+  var obj = program.obj.trim();
+  if (obj[0] === '.') {
+    obj = path.relative(__dirname, path.resolve('.', obj));
+    options = require(obj);
+  } else {
+    options = eval('(' + obj + ')');
+  }
+}
 
 // options
 
